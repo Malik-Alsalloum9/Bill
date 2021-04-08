@@ -1,0 +1,51 @@
+<h1>How to Convert SQL Database into Excel File (*.xlxs) in PHP</h1>
+In this tutorial, we will convert sql to excel using PHP. This code will read all data from an SQL table then add it into an excel file using a class called "xlsxwriter.class.php". You can download the class using this <a href="https://github.com/mk-j/PHP_XLSXWriter" style="text-decoration:none;color:red;" target="_blank"><strong>link from Github</strong></a>
+
+<h3>Things to do</h3>
+You have to download and install XAMPP or any local server that run PHP scripts. In my case I used XAMPP as my local server, here's the download link for XAMPP server https://www.apachefriends.org/download.html . If you already installed a local server (XAMPP, WAMP, etc.), just ignore this step.<br><br>
+
+I've included a SQL file in the downloadable of this tutorial. All you have to do is import the said file. If you have no idea on how to import, please visit <a href="https://www.sourcecodester.com/users/nurhodelta2017" style="text-decoration:none;color:red;" target="_blank">nurhodelta_17</a>'s tutorial on <a href="https://www.sourcecodester.com/tutorials/sql/12049/how-import-sql-file-restore-mysql-database.html" style="text-decoration:none;color:red;" target="_blank">How import .sql file to restore MySQL database</a>.
+<br><br>
+You should be able to create a database named <q>guessmynumber</q>.
+
+<h3>Database Connection</h3>
+<code>
+	 $conn=mysqli_connect('localhost','root','','guessmynumber');
+</code>
+
+<h3>Include Main Class</h3>
+<code>
+	 include_once("xlsxwriter.class.php");
+</code>
+
+<h3>Create array from Query Result</h3>
+<code>
+	$user_query = mysqli_query($conn,'select * from gmn_questions');
+	$rows = array();
+
+	//about this, read documentation of class from github
+	$header = array(
+	  'Question ID'=>'integer',
+	  'Question Clue'=>'string',
+	  'Question Answer'=>'integer',
+	);
+
+	while ($datafromsql = mysqli_fetch_assoc($user_query)) {
+		$rows[] = $datafromsql;
+	}
+	
+	//secret code here. To view code, click "Download Code" Button below.
+</code>
+
+<h3>Download Excel File</h3>
+<code>
+	$file = "output.xlsx" ;
+	header('Content-Disposition: attachment; filename=' . $file );
+	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	header('Content-Length: ' . filesize($file));
+	header('Content-Transfer-Encoding: binary');
+	header('Cache-Control: must-revalidate');
+	header('Pragma: public');
+</code>
+<br><br>
+Tutorial done. I hope that this simple tutorial help you. Enjoy Coding!!
